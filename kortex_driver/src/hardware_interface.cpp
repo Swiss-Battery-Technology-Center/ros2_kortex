@@ -43,6 +43,10 @@ const rclcpp::Logger LOGGER = rclcpp::get_logger("KortexMultiInterfaceHardware")
 
 namespace kortex_driver
 {
+
+constexpr double JOINT_4_OFFSET_DEG = 7.5;
+
+
 KortexMultiInterfaceHardware::KortexMultiInterfaceHardware()
 : router_tcp_{
     &transport_tcp_,
@@ -772,9 +776,18 @@ return_type KortexMultiInterfaceHardware::read(
     arm_velocities_[i] = KortexMathUtil::toRad(feedback_.actuators(i).velocity());  // rad/sec
     // read position
     num_turns_tmp_ = 0;
-    arm_positions_[i] = KortexMathUtil::wrapRadiansFromMinusPiToPi(
-      KortexMathUtil::toRad(feedback_.actuators(i).position()),
-      num_turns_tmp_);  // rad
+    if (i==3) // joint 4
+    {
+      arm_positions_[i] = KortexMathUtil::wrapRadiansFromMinusPiToPi(
+      KortexMathUtil::toRad(feedback_.actuators(i).position() + JOINT_4_OFFSET_DEG),
+      num_turns_tmp_);
+    }
+    else
+    {
+      arm_positions_[i] = KortexMathUtil::wrapRadiansFromMinusPiToPi(
+        KortexMathUtil::toRad(feedback_.actuators(i).position()),
+        num_turns_tmp_);  // rad
+    }
 
     in_fault_ += (feedback_.actuators(i).fault_bank_a() + feedback_.actuators(i).fault_bank_b());
 
@@ -922,10 +935,18 @@ void KortexMultiInterfaceHardware::prepareCommands()
   for (size_t i = 0; i < actuator_count_; i++)
   {
     // set command per joint
-    cmd_degrees_tmp_ = static_cast<float>(
+    if (i==3) // joint 4
+    {
+      cmd_degrees_tmp_ = static_cast<float>(
+      KortexMathUtil::wrapDegreesFromZeroTo360(KortexMathUtil::toDeg(arm_commands_positions_[i] - JOINT_4_OFFSET_DEG)));
+    }
+    else
+    {
+      cmd_degrees_tmp_ = static_cast<float>(
       KortexMathUtil::wrapDegreesFromZeroTo360(KortexMathUtil::toDeg(arm_commands_positions_[i])));
-    cmd_vel_tmp_ = static_cast<float>(KortexMathUtil::toDeg(arm_commands_velocities_[i]));
+    }
 
+    cmd_vel_tmp_ = static_cast<float>(KortexMathUtil::toDeg(arm_commands_velocities_[i]));
     base_command_.mutable_actuators(static_cast<int>(i))->set_position(cmd_degrees_tmp_);
     // Velocity command interface not implemented properly in the kortex api
     // base_command_.mutable_actuators(i)->set_velocity(cmd_vel_tmp_);
