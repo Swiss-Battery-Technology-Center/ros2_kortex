@@ -821,6 +821,7 @@ void KortexMultiInterfaceHardware::readGripperPosition()
 return_type KortexMultiInterfaceHardware::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
 {
+
   if (block_write)
   {
     feedback_ = base_cyclic_.RefreshFeedback();
@@ -938,7 +939,7 @@ void KortexMultiInterfaceHardware::prepareCommands()
     if (i==3) // joint 4
     {
       cmd_degrees_tmp_ = static_cast<float>(
-      KortexMathUtil::wrapDegreesFromZeroTo360(KortexMathUtil::toDeg(arm_commands_positions_[i] - JOINT_4_OFFSET_DEG)));
+      KortexMathUtil::wrapDegreesFromZeroTo360(KortexMathUtil::toDeg(arm_commands_positions_[i]) - JOINT_4_OFFSET_DEG));
     }
     else
     {
