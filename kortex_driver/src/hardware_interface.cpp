@@ -44,7 +44,7 @@ const rclcpp::Logger LOGGER = rclcpp::get_logger("KortexMultiInterfaceHardware")
 namespace kortex_driver
 {
 
-constexpr double JOINT_4_OFFSET_DEG = 7.5;
+constexpr double JOINT_4_OFFSET_DEG = 7.6;
 
 
 KortexMultiInterfaceHardware::KortexMultiInterfaceHardware()
