@@ -22,6 +22,11 @@
  */
 //----------------------------------------------------------------------
 
+// Copyright 2024, SBTC, Switzerland Innovation Park Biel/Bienne (SIPBB).
+//
+// Effort hardware interface is added by SBTC group within SIPBB, and AICA (www.aica.tech)
+// Contact: sbtc@sipbb.ch
+
 #include <chrono>
 #include <cmath>
 #include <exception>

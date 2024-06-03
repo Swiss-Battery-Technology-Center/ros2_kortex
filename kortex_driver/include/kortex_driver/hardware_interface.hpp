@@ -21,6 +21,12 @@
  *
  */
 //----------------------------------------------------------------------
+
+// Copyright 2024, SBTC, Switzerland Innovation Park Biel/Bienne (SIPBB).
+//
+// Effort hardware interface is added by SBTC group within SIPBB, and AICA (www.aica.tech)
+// Contact: sbtc@sipbb.ch
+
 #ifndef KORTEX_DRIVER__HARDWARE_INTERFACE_HPP_
 #define KORTEX_DRIVER__HARDWARE_INTERFACE_HPP_
 
