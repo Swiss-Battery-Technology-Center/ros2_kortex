@@ -49,6 +49,7 @@
 #include "SessionManager.h"
 #include "TransportClientTcp.h"
 #include "TransportClientUdp.h"
+#include "ActuatorConfigClientRpc.h"
 
 namespace hardware_interface
 {
@@ -67,11 +68,13 @@ namespace kortex_driver
 enum class StopStartInterface
 {
   NONE,
-  STOP_POS_VEL,
+  STOP_POS,
+  STOP_EFF,
   STOP_TWIST,
   STOP_GRIPPER,
   STOP_FAULT_CTRL,
-  START_POS_VEL,
+  START_POS,
+  START_EFF,
   START_TWIST,
   START_GRIPPER,
   START_FAULT_CTRL,
@@ -126,6 +129,7 @@ private:
   k_api::Base::TwistCommand k_api_twist_command_;
 
   // Control of the robot arm itself
+  k_api::ActuatorConfig::ActuatorConfigClient actuator_config_;
   k_api::Base::BaseClient base_;
   k_api::BaseCyclic::BaseCyclicClient base_cyclic_;
   k_api::BaseCyclic::Command base_command_;
@@ -138,6 +142,7 @@ private:
   std::vector<double> arm_positions_;
   std::vector<double> arm_velocities_;
   std::vector<double> arm_efforts_;
+  std::vector<double> motor_constants_;
 
   // twist command interfaces
   std::vector<double> twist_commands_;
@@ -171,7 +176,8 @@ private:
   // changing active controller on the hardware
   k_api::Base::ServoingModeInformation servoing_mode_hw_;
   // what controller is running
-  bool joint_based_controller_running_;
+  bool joint_pos_controller_running_;
+  bool joint_eff_controller_running_;
   bool twist_controller_running_;
   bool gripper_controller_running_;
   bool fault_controller_running_;
@@ -183,11 +189,13 @@ private:
   std::vector<StopStartInterface> stop_modes_;
   std::vector<StopStartInterface> start_modes_;
   // switching auxiliary booleans
-  bool stop_joint_based_controller_;
+  bool stop_joint_pos_controller_;
+  bool stop_joint_eff_controller_;
   bool stop_twist_controller_;
   bool stop_gripper_controller_;
   bool stop_fault_controller_;
-  bool start_joint_based_controller_;
+  bool start_joint_pos_controller_;
+  bool start_joint_eff_controller_;
   bool start_twist_controller_;
   bool start_gripper_controller_;
   bool start_fault_controller_;
