@@ -65,13 +65,13 @@ def adjust_urdf(urdf_filename, calib_filename, output_filename):
             print(f"Original rpy: {rpy}")
             
             matrix = np.eye(4)
-            matrix[:3, :3] = tf3d.euler.euler2mat(rpy[0], rpy[1], rpy[2], 'szyx')
+            matrix[:3, :3] = tf3d.euler.euler2mat(rpy[0], rpy[1], rpy[2], 'sxyz')
             matrix[:3, 3] = xyz
 
             new_matrix = matrix @ matrices[joint_number-1]
             
             new_xyz = new_matrix[:3, 3]
-            new_rpy = tf3d.euler.mat2euler(new_matrix[:3, :3], 'szyx')
+            new_rpy = tf3d.euler.mat2euler(new_matrix[:3, :3], 'sxyz')
             print(f"Transformed xyz: {new_xyz}")
             print(f"Transformed rpy: {new_rpy}")
             
