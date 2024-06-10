@@ -1,3 +1,12 @@
+#####################################################################
+# Copyright (c) 2024, Switzerland Innovation Park Biel/Bienne (SIPBB)
+# Swiss Battery Technology Center (SBTC): sbtc@sipbb.ch
+# All rights reserved.
+#
+# Author: Raphael Rätz
+# Email: raphael.raetz@sipbb.ch
+#####################################################################
+
 import xml.etree.ElementTree as ET
 import numpy as np
 import transforms3d as tf3d
@@ -43,7 +52,6 @@ def adjust_urdf(urdf_filename, calib_filename, output_filename):
     tree = ET.parse(urdf_filename)
     root = tree.getroot()
     ns = {'xacro': 'http://ros.org/wiki/xacro'}
-    
 
     # Find all joints and transform their origins
     for i, joint in enumerate(root.findall('.//xacro:macro//joint', ns)):
@@ -83,7 +91,6 @@ def adjust_urdf(urdf_filename, calib_filename, output_filename):
     ET.register_namespace('xacro', 'http://ros.org/wiki/xacro')
     tree.write(output_filename, xml_declaration=True, encoding='utf-8')
     
-    
     # Reopen the file and adjust some formatting
     with open(output_filename, "r") as f:
         lines = f.readlines()
@@ -92,22 +99,19 @@ def adjust_urdf(urdf_filename, calib_filename, output_filename):
         for line in lines:
             if 'params=' in line:
                 line = line.replace('     ', '\n\t\t')
-
             if '<xacro:kortex_ros2_control' in line:
                 line = line.replace(' ', '\n', 1)
                 line = line.replace('" ', '"\n\t\t\t')
-
             f.write(line)
             
 
 
-
-# Use argparser for input files and output file
-parser = argparse.ArgumentParser(description='Adjust URDF file with calibration data')
-parser.add_argument('--input_urdf', type=str, help='URDF file to adjust')
-parser.add_argument('--calib', type=str, help='Calibration file')
-parser.add_argument('--output_urdf', default='output.xacro', type=str, help='Output file')
-
-args = parser.parse_args()
-adjust_urdf(args.input_urdf, args.calib, args.output_urdf)
-
+if __name__ == '__main__':
+    # Use argparser for input files and output file
+    parser = argparse.ArgumentParser(description='Adjust URDF file with calibration data')
+    parser.add_argument('--input_urdf', type=str, help='URDF file to adjust')
+    parser.add_argument('--calib', type=str, help='Calibration file')
+    parser.add_argument('--output_urdf', default='output.xacro', type=str, help='Output file')
+    
+    args = parser.parse_args()
+    adjust_urdf(args.input_urdf, args.calib, args.output_urdf)
