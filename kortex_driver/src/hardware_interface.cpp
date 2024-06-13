@@ -88,8 +88,8 @@ KortexMultiInterfaceHardware::KortexMultiInterfaceHardware()
   gripper_joint_name_(""),
   use_internal_bus_gripper_comm_(false)
 {
-  RCLCPP_INFO(LOGGER, "Setting severity threshold to DEBUG");
-  auto ret = rcutils_logging_set_logger_level(LOGGER.get_name(), RCUTILS_LOG_SEVERITY_DEBUG);
+  RCLCPP_INFO(LOGGER, "Setting severity threshold to INFO");
+  auto ret = rcutils_logging_set_logger_level(LOGGER.get_name(), RCUTILS_LOG_SEVERITY_INFO);
   if (ret != RCUTILS_RET_OK)
   {
     RCLCPP_ERROR(LOGGER, "Error setting severity: %s", rcutils_get_error_string().str);
@@ -99,7 +99,7 @@ KortexMultiInterfaceHardware::KortexMultiInterfaceHardware()
 
 CallbackReturn KortexMultiInterfaceHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
-  RCLCPP_INFO(LOGGER, "Configuring Hardware Interface");
+  RCLCPP_DEBUG(LOGGER, "Configuring Hardware Interface");
   if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
   {
     return CallbackReturn::ERROR;
@@ -719,7 +719,7 @@ return_type KortexMultiInterfaceHardware::perform_command_mode_switch(
 CallbackReturn KortexMultiInterfaceHardware::on_activate(
   const rclcpp_lifecycle::State & /* previous_state */)
 {
-  RCLCPP_INFO(LOGGER, "Activating KortexMultiInterfaceHardware...");
+  RCLCPP_DEBUG(LOGGER, "Activating KortexMultiInterfaceHardware...");
   // first read
   auto base_feedback = base_cyclic_.RefreshFeedback();
 
@@ -732,7 +732,7 @@ CallbackReturn KortexMultiInterfaceHardware::on_activate(
   // Initialize gripper
   float gripper_initial_position =
     base_feedback.interconnect().gripper_feedback().motor()[0].position();
-  RCLCPP_INFO(LOGGER, "Gripper initial position is '%f'.", gripper_initial_position);
+  RCLCPP_DEBUG(LOGGER, "Gripper initial position is '%f'.", gripper_initial_position);
 
   // to radians
   gripper_command_position_ = gripper_initial_position / 100.0 * 0.81;
@@ -779,14 +779,14 @@ CallbackReturn KortexMultiInterfaceHardware::on_activate(
     arm_joints_control_level_[i] = integration_lvl_t::UNDEFINED;
   }
 
-  RCLCPP_INFO(LOGGER, "KortexMultiInterfaceHardware successfully activated!");
+  RCLCPP_DEBUG(LOGGER, "KortexMultiInterfaceHardware successfully activated!");
   return CallbackReturn::SUCCESS;
 }
 
 CallbackReturn KortexMultiInterfaceHardware::on_deactivate(
   const rclcpp_lifecycle::State & /* previous_state */)
 {
-  RCLCPP_INFO(LOGGER, "Deactivating KortexMultiInterfaceHardware...");
+  RCLCPP_DEBUG(LOGGER, "Deactivating KortexMultiInterfaceHardware...");
 
   auto servoing_mode = k_api::Base::ServoingModeInformation();
   // Set back the servoing mode to Single Level Servoing
@@ -807,7 +807,7 @@ CallbackReturn KortexMultiInterfaceHardware::on_deactivate(
   delete k_api_twist_;
   delete gripper_motor_command_;
 
-  RCLCPP_INFO(LOGGER, "KortexMultiInterfaceHardware successfully deactivated!");
+  RCLCPP_DEBUG(LOGGER, "KortexMultiInterfaceHardware successfully deactivated!");
 
   return CallbackReturn::SUCCESS;
 }
