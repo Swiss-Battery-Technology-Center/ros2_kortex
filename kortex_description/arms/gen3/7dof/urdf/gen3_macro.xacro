@@ -366,8 +366,17 @@
       <child link="${prefix}end_effector_link" />
       <axis xyz="0 0 0" />
     </joint>
+
+
+    <link name="${prefix}end_effector_tip" />
+    <joint name="${prefix}end_effector_tip_joint" type="fixed">
+      <origin xyz="0 0 0.18262" rpy="0 0 0" />
+      <parent link="${prefix}end_effector_link" />
+      <child link="${prefix}end_effector_tip" />
+      <axis xyz="0 0 0" />
+    </joint>
+
     <xacro:if value="${vision}">
-      
       <xacro:if value="${sim_ignition}">
         <link name="${prefix}camera_link" />
         <joint name="${prefix}camera_module" type="fixed">
