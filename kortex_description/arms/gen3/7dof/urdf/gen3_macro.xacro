@@ -359,8 +359,10 @@
         <limit effort="9" velocity="1.2218" />
       </joint>
     </xacro:unless>
+
+    
     <link name="${prefix}end_effector_link" />
-    <joint name="${prefix}end_effector" type="fixed">
+    <joint name="${prefix}end_effector_link_joint" type="fixed">
       <origin xyz="0 0 -0.0615250000000001" rpy="3.14159265358979 1.09937075168372E-32 0" />
       <parent link="${prefix}bracelet_link" />
       <child link="${prefix}end_effector_link" />
@@ -368,8 +370,8 @@
     </joint>
 
 
-    <link name="${prefix}end_effector_tip" />
-    <joint name="${prefix}end_effector_tip_joint" type="fixed">
+    <link name="${prefix}end_effector" />
+    <joint name="${prefix}end_effector_joint" type="fixed">
       <origin xyz="0 0 0.18262" rpy="0 0 0" />
       <parent link="${prefix}end_effector_link" />
       <child link="${prefix}end_effector_tip" />
