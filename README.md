@@ -125,16 +125,24 @@ If the bug fix you need isn't in a released version or If you want to build this
 
    If you plan on using MoveIt, you must make sure that you have it already [installed](https://moveit.ros.org/install-moveit2/binary/) either from binaries or by building it from source.
 
+   If you plan on simulating the Gen3 7Dof robot mounted on the Husky mobile robot from clearpath, make sure to pull the additional related packages. On ROS2 Humble, run
+   ```
+   vcs import src --skip-existing --input src/ros2_kortex/clearpath.repos
+   ```
+
 4. Install dependencies, compile, and source the workspace:
    ```
    rosdep install --ignore-src --from-paths src -y -r
    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
-   source install/setup.bash
    ```
 
    By default, colcon will use as much resources as possible to build the ROS2 workspace. This can temporarily freeze or even crash your machine. You can limit the number of threads used to avoid this issue, we found a good tradeoff between build time and resource utilisation by setting it to 3 :
    ```
    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --parallel-workers 3
+   ```
+5. Source the previously built workspace using the following command:
+   ```
+   echo 'source ~/workspace/ros2_kortex_ws/install/setup.bash' >> ~/.bashrc
    ```
 
 ## Simulation Issues
@@ -245,6 +253,21 @@ You can test the gripper by calling the Action server with the following command
 ros2 action send_goal /robotiq_gripper_controller/gripper_cmd control_msgs/action/GripperCommand "{command:{position: 0.0, max_effort: 100.0}}"
 ```
 
+#### Vision Module
+
+In order to access the Kinova Vision module's depth and color streams for the camera-equipped Gen3 arm models, please refer to the following github repository for detailed instructions: [ros2_kortex_vision](https://github.com/PickNikRobotics/ros2_kortex_vision)
+
+While following the instructions, please take note of the following points:
+1. There is no need to install the `rgbd_launch` ROS package
+2. Establishing a connection between the computer and the camera may require several attempts, so please be patient. Sometimes you may need to restart both the robot and the connected computer to successfully establish the connection.
+3. Before setting the `depth_registration` argument to `true` in the `kinova_vision.launch.py` file, make sure to install the `image_proc` ROS package on your system using the following command:
+
+```bash
+sudo apt install ros-$ROS_DISTRO-depth-image-proc
+```
+
+4. After starting the `kinova_vision.launch.py` file, open RViz and add the desired camera topics to visualize the captured scene.
+
 ### Gen 3 Lite Robot
 
 The `gen3_lite.launch.py` launch file is designed to be used for Gen3 Lite arms. The typical use case to bringup the robot arm with mock hardware:
@@ -342,12 +365,20 @@ ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config sim.launch.py \
 
 To work with a physical robot and generate/execute paths with MoveIt run the following:
 
+For Gen3:
+
 ```bash
 ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config robot.launch.py \
   robot_ip:=192.168.1.10
 ```
 
-**Note: Currently, MoveIt configs are only provided for Gen3 6 and 7 dof configurations. If you wish to use the Gen3 Lite with MoveIt, you can generate it with MoveIt's setup assisstant.**
+For Gen3-Lite:
+
+```bash
+ros2 launch kinova_gen3_lite_moveit_config robot.launch.py \
+  robot_ip:=192.168.1.10
+```
+
 
 
 ## Commanding the arm (physically and in simulation)
