@@ -49,7 +49,6 @@ const rclcpp::Logger LOGGER = rclcpp::get_logger("KortexMultiInterfaceHardware")
 namespace kortex_driver
 {
 
-constexpr double JOINT_4_OFFSET_DEG = 7.6;
 
 
 KortexMultiInterfaceHardware::KortexMultiInterfaceHardware()
@@ -838,7 +837,7 @@ return_type KortexMultiInterfaceHardware::read(
     if (i==3) // joint 4
     {
       arm_positions_[i] = KortexMathUtil::wrapRadiansFromMinusPiToPi(
-      KortexMathUtil::toRad(feedback_.actuators(i).position() + JOINT_4_OFFSET_DEG),
+      KortexMathUtil::toRad(feedback_.actuators(i).position()),
       num_turns_tmp_);
     }
     else
@@ -1001,7 +1000,7 @@ void KortexMultiInterfaceHardware::prepareCommands()
       if (i==3) // Correct for joint 4 offset
       {
         cmd_degrees_tmp_ = static_cast<float>(
-        KortexMathUtil::wrapDegreesFromZeroTo360(KortexMathUtil::toDeg(arm_commands_positions_[i]) - JOINT_4_OFFSET_DEG));
+        KortexMathUtil::wrapDegreesFromZeroTo360(KortexMathUtil::toDeg(arm_commands_positions_[i])));
       }
       else
       {
