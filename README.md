@@ -1,10 +1,10 @@
-# ROS 2 Kortex
-> Kinova® Kortex™ is the common software platform behind all of the products in the Gen3 family (Gen3 and Gen3 lite). It unifies the inner workings of the various robots and their related external tools, like the API. <br />
+# ROS 2 KINOVA KORTEX™
+> Kinova® KINOVA KORTEX™ is the common software platform behind all of the products in the Gen3 family (Gen3 and Gen3 lite). It unifies the inner workings of the various robots and their related external tools, like the API. <br />
 > https://www.kinovarobotics.com/product/gen3-robots
 
 <center><img src="doc/resources/kinova-gen3-7dof-robotiq-2f-85.jpg" alt="Kinova Gen3 7DoF manipulator with Intel RealSense 3D Vision Module and Robotiq 2F-85 2 Finger 85mm Adaptive Gripper" style="width: 50%"/></center>
 
-ROS2 Kortex is the official ROS2 package to interact with Kortex and its related products. It is built upon the Kortex API, documentation for which can be found in the [GitHub Kortex repository](https://github.com/Kinovarobotics/kortex).
+ROS2 Kortex is the official ROS2 package to interact with KINOVA KORTEX™ and its related products. It is built upon the KINOVA KORTEX™ API, documentation for which can be found in the [GitHub Kortex repository](https://github.com/Kinovarobotics/kortex).
 
 ## Build status
 
@@ -12,87 +12,80 @@ ROS2 Kortex is the official ROS2 package to interact with Kortex and its related
   <tr>
     <th>ROS 2 Distro</th>
     <th>Humble</th>
-    <th>Iron</th>
+    <th>Jazzy</th>
     <th>Rolling</th>
   </tr>
   <tr>
     <th>Branch</th>
-    <td><a href="https://github.com/PickNikRobotics/ros2_kortex/tree/main">main</a></td>
-    <td><a href="https://github.com/PickNikRobotics/ros2_kortex/tree/main">main</a></td>
-    <td><a href="https://github.com/PickNikRobotics/ros2_kortex/tree/main">main</a></td>
+    <td><a href="https://github.com/Kinovarobotics/ros2_kortex/tree/humble">humble</a></td>
+    <td><a href="https://github.com/Kinovarobotics/ros2_kortex/tree/jazzy">jazzy</a></td>
+    <td><a href="https://github.com/Kinovarobotics/ros2_kortex/tree/main">main</a></td>
   </tr>
   <tr>
     <th>Build Status</th>
     <td>
-      <a href="https://github.com/PickNikRobotics/ros2_kortex/actions/workflows/humble-binary-build.yml">
-        <img src="https://github.com/PickNikRobotics/ros2_kortex/actions/workflows/humble-binary-build.yml/badge.svg?event=push&branch=main" alt="Humble Binary Build"/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/humble-binary-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/humble-binary-build.yml/badge.svg?event=push&branch=humble" alt="Humble Binary Build"/>
+      </a>
+      <br/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/humble-source-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/humble-source-build.yml/badge.svg?event=push&branch=humble" alt="Humble Source Build"/>
       </a>
     </td>
     <td>
-      <a href="https://github.com/PickNikRobotics/ros2_kortex/actions/workflows/iron-binary-build.yml">
-        <img src="https://github.com/PickNikRobotics/ros2_kortex/actions/workflows/iron-binary-build.yml/badge.svg?event=push&branch=main" alt="Iron Binary Build"/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/jazzy-binary-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/jazzy-binary-build.yml/badge.svg?event=push&branch=jazzy" alt="Jazzy Binary Build"/>
+      </a>
+      <br/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/jazzy-source-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/jazzy-source-build.yml/badge.svg?event=push&branch=jazzy" alt="Jazzy Source Build"/>
       </a>
     </td>
     <td>
-      <a href="https://github.com/PickNikRobotics/ros2_kortex/actions/workflows/rolling-binary-build.yml">
-        <img src="https://github.com/PickNikRobotics/ros2_kortex/actions/workflows/rolling-binary-build.yml/badge.svg?event=push&branch=main" alt="Rolling Binary Build"/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/rolling-binary-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/rolling-binary-build.yml/badge.svg?event=push&branch=main" alt="Rolling Binary Build"/>
+      </a>
+      <br/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/rolling-semi-binary-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/rolling-semi-binary-build.yml/badge.svg?event=push&branch=main" alt="Rolling Semi-Binary Build"/>
+      </a>
+      <br/>
+      <a href="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/rolling-source-build.yml">
+        <img src="https://github.com/Kinovarobotics/ros2_kortex/actions/workflows/rolling-source-build.yml/badge.svg?event=push&branch=main" alt="Rolling Source Build"/>
       </a>
     </td>
   </tr>
   <tr>
     <th>Release Status</th>
-    <td>coming soon<!-- TODO(moriarty) add build.ros2.org status badge once released --></td>
-    <td>coming soon<!-- TODO(moriarty) add build.ros2.org status badge once released --></td>
-    <td>coming soon<!-- TODO(moriarty) add build.ros2.org status badge once released --></td>
+    <td>Stable (binary available — may lag behind source)<!-- TODO(moriarty) add build.ros2.org status badge once released --></td>
+    <td>Stable (source only)<!-- TODO(moriarty) add build.ros2.org status badge once released --></td>
+    <td>Unstable (source only)</td>
   </tr>
 </table>
 
 
 **Note:** There are several CI jobs checking against future upstream changes see [detailed build status](.github/workflows/README.md) for a full list of CI jobs and for more information.
 
+**Note:** Gazebo classic support was removed from the `main` branch of this repository
 
 ## Getting started
 
 1. Install ROS 2.
 
-   If you're a developer, we recommend using Rolling to get the latest features and fixes.
+  For this branch, ROS2 Jazzy has to be installed on Ubuntu 24.04.
 
-   Rolling Release: [Install ROS2 Rolling](https://docs.ros.org/en/rolling/Installation/Ubuntu-Install-Debians.html)<br/>
-   Latest Release: [Install ROS2 Iron](https://docs.ros.org/en/iron/Installation/Ubuntu-Install-Debians.html)</br>
-   Stable LTS Release: [Install ROS2 Humble](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
+   Latest LTS Release: [Install ROS2 Jazzy](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html)</br>
 
-   After installing a version of ROS, source the setup.bash, which will set the `$ROS_DISTRO` environment variable.
+   After installing ROS2, source the setup.bash, which will set the `$ROS_DISTRO` environment variable.
 
-2. Install this package from binary
-   ```
-   sudo apt install ros-$ROS_DISTRO-kortex-bringup
-   ```
-
-3. Optional: install MoveIt Configuration and Cyclone DDS
-
-   If you have a 7dof arm:
-   ```
-   sudo apt install ros-$ROS_DISTRO-kinova-gen3-7dof-robotiq-2f-85-moveit-config
-   ```
-   If you have a 6dof arm:
-   ```
-   sudo apt install ros-$ROS_DISTRO-kinova-gen3-6dof-robotiq-2f-85-moveit-config
-   ```
-   If you plan to use MoveIt, it is recommended to install and use Cyclone DDS.
+2. If you plan to use MoveIt, it is recommended to install and use Cyclone DDS.
    ```
    sudo apt install ros-$ROS_DISTRO-rmw-cyclonedds-cpp
    export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
    ```
-
-4. Go to Usage section
-
 ## Contributing to this repository or building from source
 
-Note: It is recommended to use a released binary version of this package and apt install it.
-If you want the latest version of this repository for testing latest fixes
-check out testing with pre-released binaries: https://docs.ros.org/en/rolling/Installation/Testing.html
-
-If the bug fix you need isn't in a released version or If you want to build this repository from source or contribute back to the repository read on.
+To build this repository from source or contribute back to the repository read on.
 
 1. Make sure that `colcon`, its extensions, and `vcs` are installed:
    ```
@@ -113,9 +106,10 @@ If the bug fix you need isn't in a released version or If you want to build this
    vcs import src --skip-existing --input src/ros2_kortex/ros2_kortex-not-released.$ROS_DISTRO.repos
    ```
 
-   If you plan on simulating the robot with ignition or gazebo, make sure to pull the additional simulation packages. If you're on    ROS2 Humble, run
+   If you plan on simulating the robot with Gazebo, make sure to pull the additional simulation packages.
+   If you're on ROS 2 Jazzy, run
    ```
-   vcs import src --skip-existing --input src/ros2_kortex/simulation.humble.repos
+   vcs import src --skip-existing --input src/ros2_kortex/simulation.jazzy.repos
    ```
 
    otherwise
@@ -125,12 +119,10 @@ If the bug fix you need isn't in a released version or If you want to build this
 
    If you plan on using MoveIt, you must make sure that you have it already [installed](https://moveit.ros.org/install-moveit2/binary/) either from binaries or by building it from source.
 
-   If you plan on simulating the Gen3 7Dof robot mounted on the Husky mobile robot from clearpath, make sure to pull the additional related packages. On ROS2 Humble, run
-   ```
-   vcs import src --skip-existing --input src/ros2_kortex/clearpath.repos
-   ```
 
-4. Install dependencies, compile, and source the workspace:
+4. Follow the instructions to install [Gazebo Harmonic](https://gazebosim.org/docs/harmonic/getstarted/)
+
+5. Install dependencies, compile, and source the workspace:
    ```
    rosdep install --ignore-src --from-paths src -y -r
    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release
@@ -140,7 +132,7 @@ If the bug fix you need isn't in a released version or If you want to build this
    ```
    colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --parallel-workers 3
    ```
-5. Source the previously built workspace using the following command:
+6. Source the previously built workspace using the following command:
    ```
    echo 'source ~/workspace/ros2_kortex_ws/install/setup.bash' >> ~/.bashrc
    ```
@@ -215,7 +207,7 @@ You can specify the following arguments if you wish to change your arm configura
 
 * `robot_type`: Your robot model. Default value (and only one) is `gen3`.
 
-* `gripper` : Gripper to use. Possible values for the Gen3 are either `robotiq_2f_85`, `robotiq_2f_140` or `""`. Default is `robotiq_2f_85`. An empty string will not initialise any gripper.
+* `gripper` : Gripper to use. Possible values for the Gen3 are either `robotiq_2f_85`, `robotiq_2f_140` or `""`. Default is `""`. An empty string will not initialise any gripper.
 
 * `gripper_joint_name` : Name of the controlled joint of the gripper attached to the arm. Default value is `robotiq_85_left_knuckle_joint`.
 
@@ -253,20 +245,23 @@ You can test the gripper by calling the Action server with the following command
 ros2 action send_goal /robotiq_gripper_controller/gripper_cmd control_msgs/action/GripperCommand "{command:{position: 0.0, max_effort: 100.0}}"
 ```
 
-#### Vision Module
+#### Gen3_lite gripper
 
-In order to access the Kinova Vision module's depth and color streams for the camera-equipped Gen3 arm models, please refer to the following github repository for detailed instructions: [ros2_kortex_vision](https://github.com/PickNikRobotics/ros2_kortex_vision)
-
-While following the instructions, please take note of the following points:
-1. There is no need to install the `rgbd_launch` ROS package
-2. Establishing a connection between the computer and the camera may require several attempts, so please be patient. Sometimes you may need to restart both the robot and the connected computer to successfully establish the connection.
-3. Before setting the `depth_registration` argument to `true` in the `kinova_vision.launch.py` file, make sure to install the `image_proc` ROS package on your system using the following command:
+The Gen3_lite gripper will be available on the Action topic:
 
 ```bash
-sudo apt install ros-$ROS_DISTRO-depth-image-proc
+/gen3_lite_2f_gripper_controller/gripper_cmd
 ```
 
-4. After starting the `kinova_vision.launch.py` file, open RViz and add the desired camera topics to visualize the captured scene.
+You can test the gripper by calling the Action server with the following command and setting the desired `position` of the gripper (`0.0=open`, `0.8=close`)
+
+```bash
+ros2 action send_goal /gen3_lite_2f_gripper_controller/gripper_cmd control_msgs/action/GripperCommand "{command:{position: 0.0, max_effort: 100.0}}"
+```
+
+#### Vision Module
+
+In order to access the Kinova Vision module's depth and color streams for the camera-equipped Gen3 arm models, please refer to the following github repository for detailed instructions: [ros2_kortex_vision](https://github.com/Kinovarobotics/ros2_kortex_vision)
 
 ### Gen 3 Lite Robot
 
@@ -322,8 +317,7 @@ ros2 launch kortex_bringup kortex_sim_control.launch.py \
   launch_rviz:=false
 ```
 
-* `sim_ignition` : Use Ignition for simulation. Default value is `true`.
-* `sim_gazebo` : Use Gazebo Classic for simulation. Default value is `false`.
+* `sim_gazebo` : Use Gazebo for simulation. Default value is `false`.
 * `robot_type` : Your robot model. Possible values are either `gen3` or `gen3_lite`.Default is `gen3`.
 * `robot_name` : Name you would like your robot to have. Default value is `gen3`.
 * `dof` : Degrees of freedom of the arm. Possible values are either `6` or `7`.Default value is `7`.
@@ -336,9 +330,9 @@ ros2 launch kortex_bringup kortex_sim_control.launch.py \
 * `description_file` : URDF/XACRO description file with the robot. Default value is `kinova.urdf.xacro`.
 * `prefix` : Prefix of the joint names, useful for multi-robot setup. If changed, then also joint names in the controllers' configuration have to be updated. Default value is `""` (none).
 * `use_sim_time` : Use simulated clock. Default value is `true`.
-* `gripper` : Gripper to use. Possible values for the Gen3 are either `robotiq_2f_85`, `robotiq_2f_140` or `""`. Default is `robotiq_2f_85`. An empty string will not initialise any gripper.
+* `gripper` : Gripper to use. Possible values for the Gen3 are: `robotiq_2f_85`, `robotiq_2f_140`, `""` and `gen3_lite_2f`. Default is `robotiq_2f_85`. An empty string will not initialise any gripper.
 
-#### MoveIt2
+#### MoveIt 2
 
 To generate motion plans and execute them with a simulated 7 DoF Kinova Gen3 arm with mock hardware:
 
@@ -356,7 +350,7 @@ ros2 launch kinova_gen3_6dof_robotiq_2f_85_moveit_config robot.launch.py \
   use_fake_hardware:=true
 ```
 
-To generate motion plans and execute them with an ignition simulated 7 DoF Kinova Gen3 arm (previously launched with the command at the [simulation](#simulation) section):
+To generate motion plans and execute them with a Gazebo simulated 7 DoF Kinova Gen3 arm (previously launched with the command at the [simulation](#simulation) section):
 
 ```bash
 ros2 launch kinova_gen3_7dof_robotiq_2f_85_moveit_config sim.launch.py \
@@ -393,16 +387,7 @@ ros2 topic pub /joint_trajectory_controller/joint_trajectory trajectory_msgs/Joi
 }" -1
 ```
 
-Depending on your robot type and its DoF, you will need to adapt the `joint_names` and `positions` properties accordingly. For the Gen3 Lite arm, the integrated gripper is considered as a joint, so to command it, it must be included in the `joint_names` array. (`0.0=open`, `1.0=close`):
-
-```bash
-ros2 topic pub /joint_trajectory_controller/joint_trajectory trajectory_msgs/JointTrajectory "{
-  joint_names: [joint_1, joint_2, joint_3, joint_4, joint_5, joint_6, right_finger_bottom_joint],
-  points: [
-    { positions: [0, 0, 0, 0, 0, 0, 1], time_from_start: { sec: 10 } },
-  ]
-}" -1
-```
+Depending on your robot type and its DoF, you will need to adapt the `joint_names` and `positions` properties accordingly.
 
 You can also command the arm using Twist messages. Before doing so, you must active the `twist_controller` and deactivate the `joint_trajectory_controller`:
 ```bash

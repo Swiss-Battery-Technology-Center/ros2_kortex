@@ -39,9 +39,9 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "sim_ignition",
+            "sim_gazebo",
             default_value="true",
-            description="Use Ignition for simulation",
+            description="Use Gazebo for simulation",
         )
     )
     declared_arguments.append(
@@ -58,7 +58,7 @@ def generate_launch_description():
     # Initialize Arguments
     launch_rviz = LaunchConfiguration("launch_rviz")
     use_sim_time = LaunchConfiguration("use_sim_time")
-    sim_ignition = LaunchConfiguration("sim_ignition")
+    sim_gazebo = LaunchConfiguration("sim_gazebo")
     moveit_active = LaunchConfiguration("moveit_active")
 
     description_arguments = {
@@ -66,7 +66,7 @@ def generate_launch_description():
         "use_fake_hardware": "false",
         "gripper": "gen3_lite_2f",
         "dof": "6",
-        "sim_ignition": sim_ignition,
+        "sim_gazebo": sim_gazebo,
         "moveit_active": moveit_active,
     }
 
@@ -77,7 +77,12 @@ def generate_launch_description():
         .robot_description(mappings=description_arguments)
         .trajectory_execution(file_path="config/moveit_controllers.yaml")
         .planning_scene_monitor(
-            publish_robot_description=True, publish_robot_description_semantic=True
+            publish_robot_description=True,
+            publish_robot_description_semantic=True,
+            publish_planning_scene=True,
+            publish_geometry_updates=True,
+            publish_state_updates=True,
+            publish_transforms_updates=True,
         )
         .planning_pipelines(pipelines=["ompl", "pilz_industrial_motion_planner"])
         .to_moveit_configs()
@@ -88,12 +93,22 @@ def generate_launch_description():
         package="moveit_ros_move_group",
         executable="move_group",
         output="log",
-        parameters=[moveit_config.to_dict(), {"use_sim_time": use_sim_time}],
+        parameters=[
+            moveit_config.to_dict(),
+            {
+                "use_sim_time": use_sim_time,
+                "publish_robot_description_semantic": True,
+                "allow_trajectory_execution": True,
+                "capabilities": "",
+                "disable_capabilities": "",
+                "monitor_dynamics": False,
+            },
+        ],
         arguments=[
             "--ros-args",
             "--log-level",
-            "fatal",
-        ],  # MoveIt is spamming the log because of unknown '*_mimic' joints
+            "info",
+        ],
         condition=IfCondition(launch_rviz),
     )
 

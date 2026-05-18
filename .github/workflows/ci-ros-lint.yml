@@ -5,14 +5,16 @@ on:
 jobs:
   ament_lint:
     name: ament_${{ matrix.linter }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04  # Updated to match your Ubuntu version bump
     strategy:
       fail-fast: false
       matrix:
           linter: [cppcheck, copyright]
     steps:
-    - uses: actions/checkout@v3
-    - uses: ros-tooling/setup-ros@v0.6
+    - uses: actions/checkout@v4
+    - uses: ros-tooling/setup-ros@v0.7
+    - name: Set environment variable for cppcheck 2.7
+      run: echo "AMENT_CPPCHECK_ALLOW_SLOW_VERSIONS=1" >> $GITHUB_ENV
     - uses: ros-tooling/action-ros-lint@v0.1
       with:
         distribution: rolling
@@ -30,8 +32,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-    - uses: actions/checkout@v3
-    - uses: ros-tooling/setup-ros@v0.6
+    - uses: actions/checkout@v4
+    - uses: ros-tooling/setup-ros@v0.7
     - uses: ros-tooling/action-ros-lint@v0.1
       with:
         distribution: rolling
@@ -41,14 +43,14 @@ jobs:
 
   ament_lint_100:
     name: ament_${{ matrix.linter }}
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
           linter: [cpplint]
     steps:
-    - uses: actions/checkout@v3
-    - uses: ros-tooling/setup-ros@v0.6
+    - uses: actions/checkout@v4
+    - uses: ros-tooling/setup-ros@v0.7
     - uses: ros-tooling/action-ros-lint@v0.1
       with:
         distribution: rolling
