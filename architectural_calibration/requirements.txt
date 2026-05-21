@@ -1,3 +1,2 @@
 numpy
-xml
 transforms3d
