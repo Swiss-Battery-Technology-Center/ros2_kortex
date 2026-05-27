@@ -679,6 +679,14 @@ return_type KortexMultiInterfaceHardware::perform_command_mode_switch(
   {
     gripper_command_position_ = gripper_position_;
     gripper_controller_running_ = true;
+
+    if (!joint_pos_controller_running_ && !joint_eff_controller_running_ && !twist_controller_running_)
+    {
+      servoing_mode_hw_.set_servoing_mode(k_api::Base::ServoingMode::SINGLE_LEVEL_SERVOING);
+      base_.SetServoingMode(servoing_mode_hw_);
+      arm_mode_ = k_api::Base::ServoingMode::SINGLE_LEVEL_SERVOING;
+      RCLCPP_INFO(LOGGER, "Starting gripper-only control in SINGLE_LEVEL_SERVOING mode.");
+    }
   }
   if (start_fault_controller_)
   {
@@ -1074,39 +1082,72 @@ void KortexMultiInterfaceHardware::incrementId()
 void KortexMultiInterfaceHardware::sendGripperCommand(
   k_api::Base::ServoingMode arm_mode, double position, double velocity, double force)
 {
-  if (gripper_controller_running_ && !std::isnan(position) && use_internal_bus_gripper_comm_)
-  {
-    try
-    {
-      if (arm_mode == k_api::Base::ServoingMode::SINGLE_LEVEL_SERVOING)
-      {
-        k_api::Base::GripperCommand gripper_command;
-        gripper_command.set_mode(k_api::Base::GRIPPER_POSITION);
-        auto finger = gripper_command.mutable_gripper()->add_finger();
-        finger->set_finger_identifier(1);
-        finger->set_value(
-          static_cast<float>(position / 0.81));  // This values needs to be between 0 and 1
-        base_.SendGripperCommand(gripper_command);
-      }
-      else if (arm_mode == k_api::Base::ServoingMode::LOW_LEVEL_SERVOING)
-      {
-        // % open/closed, this values needs to be between 0 and 100
-        gripper_motor_command_->set_position(static_cast<float>(position / 0.81 * 100.0));
-        // % gripper speed between 0 and 100 percent
-        gripper_motor_command_->set_velocity(static_cast<float>(velocity));
-        // % max force threshold, between 0 and 100
-        gripper_motor_command_->set_force(static_cast<float>(force));
-      }
-    }
-    catch (k_api::KDetailedException & ex)
-    {
-      RCLCPP_ERROR(LOGGER, "Exception caught while sending internal gripper command!");
-      RCLCPP_ERROR_STREAM(LOGGER, "Kortex exception: " << ex.what());
+  static double last_logged_target = std::numeric_limits<double>::quiet_NaN();
+  static int last_logged_mode = -1;
+  static bool last_send_was_skipped = false;
 
-      RCLCPP_ERROR_STREAM(
-        LOGGER, "Error sub-code: " << k_api::SubErrorCodes_Name(
-                  k_api::SubErrorCodes((ex.getErrorInfo().getError().error_sub_code()))));
+  if (!gripper_controller_running_ || std::isnan(position) || !use_internal_bus_gripper_comm_)
+  {
+    if (!last_send_was_skipped)
+    {
+      RCLCPP_WARN_STREAM(
+        LOGGER,
+        "Skipping gripper command send: controller_running=" << gripper_controller_running_
+                                                              << ", position_is_nan=" << std::isnan(position)
+                                                              << ", internal_bus=" << use_internal_bus_gripper_comm_);
+      last_send_was_skipped = true;
     }
+    return;
+  }
+
+  last_send_was_skipped = false;
+  const int arm_mode_int = static_cast<int>(arm_mode);
+  if (std::isnan(last_logged_target) || std::fabs(last_logged_target - position) > 1e-4 ||
+      last_logged_mode != arm_mode_int)
+  {
+    RCLCPP_WARN_STREAM(
+      LOGGER,
+      "Sending gripper command target=" << position << ", current=" << gripper_position_
+                                        << ", velocity=" << velocity << ", force=" << force
+                                        << ", arm_mode=" << arm_mode_int);
+    last_logged_target = position;
+    last_logged_mode = arm_mode_int;
+  }
+
+  try
+  {
+    if (arm_mode == k_api::Base::ServoingMode::SINGLE_LEVEL_SERVOING)
+    {
+      k_api::Base::GripperCommand gripper_command;
+      gripper_command.set_mode(k_api::Base::GRIPPER_POSITION);
+      auto finger = gripper_command.mutable_gripper()->add_finger();
+      finger->set_finger_identifier(1);
+      finger->set_value(
+        static_cast<float>(position / 0.81));  // This values needs to be between 0 and 1
+      base_.SendGripperCommand(gripper_command);
+    }
+    else if (arm_mode == k_api::Base::ServoingMode::LOW_LEVEL_SERVOING)
+    {
+      // % open/closed, this values needs to be between 0 and 100
+      gripper_motor_command_->set_position(static_cast<float>(position / 0.81 * 100.0));
+      // % gripper speed between 0 and 100 percent
+      gripper_motor_command_->set_velocity(static_cast<float>(velocity));
+      // % max force threshold, between 0 and 100
+      gripper_motor_command_->set_force(static_cast<float>(force));
+    }
+    else
+    {
+      RCLCPP_WARN_STREAM(LOGGER, "Unsupported arm mode for gripper command: " << arm_mode_int);
+    }
+  }
+  catch (k_api::KDetailedException & ex)
+  {
+    RCLCPP_ERROR(LOGGER, "Exception caught while sending internal gripper command!");
+    RCLCPP_ERROR_STREAM(LOGGER, "Kortex exception: " << ex.what());
+
+    RCLCPP_ERROR_STREAM(
+      LOGGER, "Error sub-code: " << k_api::SubErrorCodes_Name(
+                k_api::SubErrorCodes((ex.getErrorInfo().getError().error_sub_code()))));
   }
 }
 
