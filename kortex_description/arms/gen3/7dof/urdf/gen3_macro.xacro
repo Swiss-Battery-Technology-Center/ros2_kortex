@@ -367,21 +367,99 @@
       <axis xyz="0 0 0" />
     </joint>
 
-    <link name="${prefix}gen3_tcp" />
+    <!-- Gripper link -->
+    <link name="${prefix}robotiq_tcp" />
 
-    <joint name="${prefix}gen3_tcp_joint" type="fixed">
+    <joint name="${prefix}robotiq_tcp_joint" type="fixed">
       <origin xyz="0 0 0.14" rpy="0 0 0" />
       <parent link="${prefix}end_effector_link" />
-      <child link="${prefix}gen3_tcp" />
+      <child link="${prefix}robotiq_tcp" />
       <axis xyz="0 0 0" />
     </joint>
 
-    <link name="${prefix}unscrewer" />
+    <!-- Unscrewer link -->
+    <link name="${prefix}unscrewer">
+      <inertial>
+        <origin xyz="-0.000828 0.0 0.151286" rpy="0 0 0" />
+        <mass value="0.045" />
+        <inertia
+            ixx="0.001047958"
+            ixy="-0.000000001015"
+            ixz="0.000005641"
+            iyy="0.001048344"
+            iyz="0.000000004583"
+            izz="0.000004642" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3/${dof}dof/meshes/unscrewer.dae" />
+        </geometry>
+        <material name="">
+          <color rgba="1 0 0 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3/${dof}dof/meshes/unscrewer.stl" />
+        </geometry>
+      </collision>
+    </link>
 
     <joint name="${prefix}unscrewer_joint" type="fixed">
-      <origin xyz="0 0 0.04" rpy="0 0 0" />
-      <parent link="${prefix}gen3_tcp" />
+      <origin xyz="0 0 0.003" rpy="0 0 0" />
+      <parent link="${prefix}end_effector_link" />
       <child link="${prefix}unscrewer" />
+      <axis xyz="0 0 0" />
+    </joint>
+
+    <!-- Unscrewer tcp link -->
+    <link name="${prefix}unscrewer_tcp"/>
+
+    <joint name="${prefix}unscrewer_tcp_joint" type="fixed">
+      <origin xyz="0 0 0.053" rpy="0 0 0" />
+      <parent link="${prefix}robotiq_tcp" />
+      <child link="${prefix}unscrewer_tcp" />
+      <axis xyz="0 0 0" />
+    </joint>
+
+
+    <!-- Camera link -->
+    <link name="${prefix}camera">
+      <inertial>
+        <origin xyz="-0.016282 0.048766 0.055678" rpy="0 0 0" />
+        <mass value="0.072" />
+        <inertia
+            ixx="0.000399458"
+            ixy="0.000056954"
+            ixz="0.000065673"
+            iyy="0.000285095"
+            iyz="-0.000194757"
+            izz="0.000232855" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3/${dof}dof/meshes/camera.dae" />
+        </geometry>
+        <material name="">
+          <color rgba="1 0 0 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://kortex_description/arms/gen3/${dof}dof/meshes/camera.stl" />
+        </geometry>
+      </collision>
+    </link>
+
+
+    <joint name="${prefix}camera_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}end_effector_link" />
+      <child link="${prefix}camera" />
       <axis xyz="0 0 0" />
     </joint>
 
